@@ -1,0 +1,48 @@
+name: Sync with upstream
+
+# Auto-merges JCodesMore/ai-website-cloner-template `master` into this fork's
+# `master` daily. Uses GitHub's official `merge-upstream` API — a true
+# fast-forward when possible; returns 422 on conflict.
+#
+# When there's a conflict the workflow fails — fix it locally:
+#   git fetch upstream
+#   git merge upstream/master
+#   # resolve, commit, push
+#
+# Trigger manually via Actions tab → "Sync with upstream" → "Run workflow".
+
+on:
+  schedule:
+    - cron: '0 6 * * *'  # 06:00 UTC daily
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Merge upstream into master
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          REPO: ${{ github.repository }}
+        run: |
+          set -e
+          echo "Attempting fast-forward merge of upstream → ${REPO}@master"
+          response=$(gh api \
+            --method POST \
+            -H "Accept: application/vnd.github+json" \
+            "/repos/${REPO}/merge-upstream" \
+            -f branch=master 2>&1) || {
+              echo "Merge failed (likely a conflict). Resolve locally:"
+              echo "  git fetch upstream && git merge upstream/master"
+              echo "----"
+              echo "$response"
+              exit 1
+            }
+          echo "$response"
+
+      - name: Summary
+        if: success()
+        run: echo "Fork synced with upstream master"
