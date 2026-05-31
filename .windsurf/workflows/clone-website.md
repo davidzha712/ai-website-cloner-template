@@ -4,6 +4,12 @@
 
 # Clone Website
 
+> **READ FIRST**: `LESSONS.md` at repo root contains 15 field-tested overrides
+> distilled from real clones. The most impactful: take a11y snapshot before
+> evaluate_script, measure typography from live DOM never guess, build
+> recreated DOM not screenshot illustrations, override the parallel-worktree
+> pattern when you are a single token-constrained LLM.
+
 You are about to reverse-engineer and rebuild **the target URL provided by the user** as pixel-perfect clones.
 
 When multiple URLs are provided, process them independently and in parallel where possible, while keeping each site's extraction artifacts isolated in dedicated folders (for example, `docs/research/<hostname>/`).
@@ -28,6 +34,8 @@ If the user provides additional instructions (specific fidelity level, customiza
 3. Verify the base project builds: `npm run build`. The Next.js + shadcn/ui + Tailwind v4 scaffold should already be in place. If not, tell the user to set it up first.
 4. Create the output directories if they don't exist: `docs/research/`, `docs/research/components/`, `docs/design-references/`, `scripts/`. For multiple clones, also prepare per-site folders like `docs/research/<hostname>/` and `docs/design-references/<hostname>/`.
 5. When working with multiple sites in one command, optionally confirm whether to run them in parallel (recommended, if resources allow) or sequentially to avoid overload.
+6. **Re-read `LESSONS.md`** — especially items 1-5 (a11y first, measure typography, recreated DOM > screenshots, inline build override, CSS token system).
+7. **Set realistic scope expectations with the user up front** (LESSONS.md §11). Linear/Stripe/Notion homepages are 10+ sections; one session does ~5-8 sections of recreated-DOM quality. Don't commit to 1:1 in one session for big sites.
 
 ## Guiding Principles
 

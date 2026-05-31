@@ -1,8 +1,16 @@
-# AI Website Cloner Template
+# AI Website Cloner Template (davidzha712 fork)
 
-<a href="https://github.com/JCodesMore/ai-website-cloner-template/blob/master/LICENSE"><img src="https://img.shields.io/badge/license-MIT-blue" alt="MIT License" /></a> <a href="https://github.com/JCodesMore/ai-website-cloner-template/stargazers"><img src="https://img.shields.io/github/stars/JCodesMore/ai-website-cloner-template?style=flat" alt="Stars" /></a> <a href="https://discord.gg/hrTSX5yTpB"><img src="https://img.shields.io/discord/1400896964597383279?label=discord" alt="Discord" /></a>
+<a href="https://github.com/JCodesMore/ai-website-cloner-template/blob/master/LICENSE"><img src="https://img.shields.io/badge/license-MIT-blue" alt="MIT License" /></a>
 
-A reusable template for reverse-engineering any website into a clean, modern Next.js codebase using AI coding agents. 
+> **Personal fork** of [JCodesMore/ai-website-cloner-template](https://github.com/JCodesMore/ai-website-cloner-template) with field-tested overrides distilled from real clones (Linear homepage, 2026-05).
+>
+> **What's new vs upstream**:
+> - `LESSONS.md` — 15 lessons that override upstream defaults (a11y snapshot first, measure typography from DOM, recreated DOM > screenshots, when to skip the parallel-worktree pattern, mobile responsive defaults, font self-hosting, RevealOnScroll failsafe)
+> - `examples/` — reference patterns from a real Linear clone (`PageSection` primitive, `RevealOnScroll` with failsafe, shared illustration atoms, two complete recreated-DOM illustrations)
+> - `scripts/crop-illustrations.mjs` — fallback `sharp`-based image cropper when DOM recreation isn't feasible
+> - SKILL.md and AGENTS.md updated to point at LESSONS.md on every clone run
+
+A reusable template for reverse-engineering any website into a clean, modern Next.js codebase using AI coding agents.
 
 **Recommended: [Claude Code](https://docs.anthropic.com/en/docs/claude-code) with Opus 4.7 for best results** — but works with a variety of AI coding agents.
 

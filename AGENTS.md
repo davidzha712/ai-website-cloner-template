@@ -58,7 +58,11 @@ scripts/            # Asset download scripts
 ```
 
 ## MOST IMPORTANT NOTES
-- When launching Claude Code agent teams, ALWAYS have each teammate work in their own worktree branch and merge everyone's work at the end, resolving any merge conflicts smartly since you are basically serving the orchestrator role and have full context to our goals, work given, work achieved, and desired outcomes.
+- **READ `LESSONS.md` AT REPO ROOT** before starting any clone. It contains field-tested overrides for the upstream skill (a11y snapshot first, measure typography from DOM, recreated DOM > screenshots, when to override the worktree pattern, mobile responsive defaults, font self-hosting, RevealOnScroll failsafe).
+- **Parallel worktree pattern is OPTIONAL.** The upstream skill assumes a human-driven workflow with multiple parallel subagents. If you are a single LLM with a token budget constraint, build sections inline using a `PageSection` primitive — it's ~5x cheaper for the same output. See LESSONS.md §4.
+- **Recreated DOM > screenshot illustrations.** Default to building each illustration as ~200-300 lines of pure TSX (no images). Use `scripts/crop-illustrations.mjs` only as a fallback when DOM recreation isn't feasible. See LESSONS.md §3.
+- **Measure typography from the live DOM** before writing any CSS. Common assumptions (72px hero h1, 20px subhead, pill eyebrows) are usually wrong. See LESSONS.md §2.
+- When using the worktree pattern, ALWAYS have each teammate work in their own worktree branch and merge everyone's work at the end, resolving any merge conflicts smartly since you are basically serving the orchestrator role and have full context to our goals, work given, work achieved, and desired outcomes.
 - After editing `AGENTS.md`, run `bash scripts/sync-agent-rules.sh` to regenerate platform-specific instruction files.
 - After editing `.claude/skills/clone-website/SKILL.md`, run `node scripts/sync-skills.mjs` to regenerate the skill for all platforms.
 
