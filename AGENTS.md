@@ -17,11 +17,13 @@ A reusable template for reverse-engineering any website into a clean, modern Nex
 - **Deployment:** Vercel
 
 ## Commands
-- `npm run dev` — Start dev server
-- `npm run build` — Production build
-- `npm run lint` — ESLint check
-- `npm run typecheck` — TypeScript check
-- `npm run check` — Run lint + typecheck + build
+Package manager is **pnpm only** (single lockfile `pnpm-lock.yaml`). Never use npm, npx, yarn or bun here: `pnpm install` / `pnpm add <pkg>`, `pnpm exec <bin>` for a declared dependency (e.g. `pnpm exec shadcn add button`, `pnpm exec tsc --noEmit`), `pnpm dlx <pkg>` only for a one-off tool that is not a dependency. New native build scripts must be approved in `pnpm-workspace.yaml` under both `allowBuilds` and `onlyBuiltDependencies`.
+
+- `pnpm dev` — Start dev server
+- `pnpm build` — Production build
+- `pnpm lint` — ESLint check
+- `pnpm typecheck` — TypeScript check
+- `pnpm check` — Run lint + typecheck + build
 
 ## Code Style
 - TypeScript strict mode, no `any`

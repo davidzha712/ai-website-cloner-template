@@ -34,7 +34,7 @@ If the user provides additional instructions (specific fidelity level, customiza
 
 1. **Browser automation is required.** Check for available browser MCP tools (Chrome MCP, Playwright MCP, Browserbase MCP, Puppeteer MCP, etc.). Use whichever is available — if multiple exist, prefer Chrome MCP. If none are detected, ask the user which browser tool they have and how to connect it. This skill cannot work without browser automation.
 2. Parse `$ARGUMENTS` as one or more URLs. Normalize and validate each URL; if any are invalid, ask the user to correct them before proceeding. For each valid URL, verify it is accessible via your browser MCP tool.
-3. Verify the base project builds: `npm run build`. The Next.js + shadcn/ui + Tailwind v4 scaffold should already be in place. If not, tell the user to set it up first.
+3. Verify the base project builds: `pnpm build`. The Next.js + shadcn/ui + Tailwind v4 scaffold should already be in place. If not, tell the user to set it up first.
 4. Create the output directories if they don't exist: `docs/research/`, `docs/research/components/`, `docs/design-references/`, `scripts/`. For multiple clones, also prepare per-site folders like `docs/research/<hostname>/` and `docs/design-references/<hostname>/`.
 5. When working with multiple sites in one command, optionally confirm whether to run them in parallel (recommended, if resources allow) or sequentially to avoid overload.
 6. **Re-read `LESSONS.md`** — especially items 1-5 (a11y first, measure typography, recreated DOM > screenshots, inline build override, CSS token system).
@@ -123,7 +123,7 @@ The spec file is not optional. It is not a nice-to-have. If you dispatch a build
 
 ### 9. Build Must Always Compile
 
-Every builder agent must verify `npx tsc --noEmit` passes before finishing. After merging worktrees, you verify `npm run build` passes. A broken build is never acceptable, even temporarily.
+Every builder agent must verify `pnpm exec tsc --noEmit` passes before finishing. After merging worktrees, you verify `pnpm build` passes. A broken build is never acceptable, even temporarily.
 
 ## Phase 1: Reconnaissance
 
@@ -192,7 +192,7 @@ This is sequential. Do it yourself (not delegated to an agent) since it touches 
 3. **Create TypeScript interfaces** in `src/types/` for the content structures you've observed
 4. **Extract SVG icons** — find all inline `<svg>` elements on the page, deduplicate them, and save as named React components in `src/components/icons.tsx`. Name them by visual function (e.g., `SearchIcon`, `ArrowRightIcon`, `LogoIcon`).
 5. **Download global assets** — write and run a Node.js script (`scripts/download-assets.mjs`) that downloads all images, videos, and other binary assets from the page to `public/`. Preserve meaningful directory structure.
-6. Verify: `npm run build` passes
+6. Verify: `pnpm build` passes
 
 ### Asset Discovery Script Pattern
 
@@ -395,7 +395,7 @@ Based on complexity, dispatch builder agent(s) in worktree(s):
 - Path to the section screenshot in `docs/design-references/`
 - Which shared components to import (`icons.tsx`, `cn()`, shadcn primitives)
 - The target file path (e.g., `src/components/HeroSection.tsx`)
-- Instruction to verify with `npx tsc --noEmit` before finishing
+- Instruction to verify with `pnpm exec tsc --noEmit` before finishing
 - For responsive behavior: the specific breakpoint values and what changes
 
 **Don't wait.** As soon as you've dispatched the builder(s) for one section, move to extracting the next section. Builders work in parallel in their worktrees while you continue extraction.
@@ -405,7 +405,7 @@ Based on complexity, dispatch builder agent(s) in worktree(s):
 As builder agents complete their work:
 - Merge their worktree branches into main
 - You have full context on what each agent built, so resolve any conflicts intelligently
-- After each merge, verify the build still passes: `npm run build`
+- After each merge, verify the build still passes: `pnpm build`
 - If a merge introduces type errors, fix them immediately
 
 The extract → spec → dispatch → merge cycle continues until all sections are built.
@@ -418,7 +418,7 @@ After all sections are built and merged, wire everything together in `src/app/pa
 - Implement the page-level layout from your topology doc (scroll containers, column structures, sticky positioning, z-index layering)
 - Connect real content to component props
 - Implement page-level behaviors: scroll snap, scroll-driven animations, dark-to-light transitions, intersection observers, smooth scroll (Lenis etc.)
-- Verify: `npm run build` passes clean
+- Verify: `pnpm build` passes clean
 
 ## Phase 5: Visual QA Diff
 
@@ -476,6 +476,6 @@ When done, report:
 - Total components created
 - Total spec files written (should match components)
 - Total assets downloaded (images, videos, SVGs, fonts)
-- Build status (`npm run build` result)
+- Build status (`pnpm build` result)
 - Visual QA results (any remaining discrepancies)
 - Any known gaps or limitations
