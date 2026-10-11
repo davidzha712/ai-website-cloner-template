@@ -8,6 +8,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 
 ### Changed
+- Switched the package manager from npm to pnpm: `pnpm-lock.yaml` (imported from the old `package-lock.json`, same resolved versions) replaces `package-lock.json`; scripts, CI, Docker and agent instructions now use `pnpm`; native build scripts (`sharp`, `unrs-resolver`) are approved in `pnpm-workspace.yaml`; `sharp`, imported by `scripts/crop-illustrations.mjs` but previously undeclared, is now a devDependency
 - Raised the project Node.js baseline to 24 across local development, CI, Docker, and contributor-facing documentation
 
 ## [0.3.1] - 2026-03-29

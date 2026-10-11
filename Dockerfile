@@ -8,28 +8,24 @@
 # This Dockerfile defaults to Node.js 24.14.1-slim to match the repo's Node 24 baseline.
 # To ensure security and compatibility, update the NODE_VERSION ARG when the project's Node baseline changes.
 ARG NODE_VERSION=24.14.1-slim
+# pnpm via corepack (bundled with Node 24). Keep in step with the pnpm that wrote pnpm-lock.yaml.
+ARG PNPM_VERSION=11.24.0
 
 FROM node:${NODE_VERSION} AS dependencies
 
 # Set working directory
 WORKDIR /app
 
-# Copy package-related files first to leverage Docker's caching mechanism
-COPY package.json yarn.lock* package-lock.json* pnpm-lock.yaml* .npmrc* ./
+ARG PNPM_VERSION
+RUN corepack enable && corepack prepare pnpm@${PNPM_VERSION} --activate
+
+# Copy package-related files first to leverage Docker's caching mechanism.
+# pnpm-workspace.yaml carries the approved native build scripts (allowBuilds / onlyBuiltDependencies).
+COPY package.json pnpm-lock.yaml pnpm-workspace.yaml ./
 
 # Install project dependencies with frozen lockfile for reproducible builds
-RUN --mount=type=cache,target=/root/.npm \
-  --mount=type=cache,target=/usr/local/share/.cache/yarn \
-  --mount=type=cache,target=/root/.local/share/pnpm/store \
-  if [ -f package-lock.json ]; then \
-  npm ci --no-audit --no-fund; \
-  elif [ -f yarn.lock ]; then \
-  corepack enable yarn && yarn install --frozen-lockfile --production=false; \
-  elif [ -f pnpm-lock.yaml ]; then \
-  corepack enable pnpm && pnpm install --frozen-lockfile; \
-  else \
-  echo "No lockfile found." && exit 1; \
-  fi
+RUN --mount=type=cache,target=/root/.local/share/pnpm/store \
+  pnpm install --frozen-lockfile
 
 # ============================================
 # Stage 2: Build Next.js application in standalone mode
@@ -59,15 +55,8 @@ ENV NODE_ENV=production
 # This caches the .next/cache directory across builds, but it also prevents
 # .next/cache/fetch-cache from being included in the final image, meaning
 # cached fetch responses from the build won't be available at runtime.
-RUN if [ -f package-lock.json ]; then \
-  npm run build; \
-  elif [ -f yarn.lock ]; then \
-  corepack enable yarn && yarn build; \
-  elif [ -f pnpm-lock.yaml ]; then \
-  corepack enable pnpm && pnpm build; \
-  else \
-  echo "No lockfile found." && exit 1; \
-  fi
+ARG PNPM_VERSION
+RUN corepack enable && corepack prepare pnpm@${PNPM_VERSION} --activate && pnpm build
 
 # ============================================
 # Stage 3: Run Next.js application

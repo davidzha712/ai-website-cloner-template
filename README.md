@@ -47,7 +47,7 @@ Point it at a URL, run `/clone-website`, and your AI agent will inspect the site
 
 3. **Install dependencies**
    ```bash
-   npm install
+   pnpm install
    ```
 4. **Start your AI agent** — Claude Code recommended:
    ```bash
@@ -82,6 +82,7 @@ Point it at a URL, run `/clone-website`, and your AI agent will inspect the site
 ## Prerequisites
 
 - [Node.js](https://nodejs.org/) 24+
+- [pnpm](https://pnpm.io/installation) 11+ — this template uses pnpm only (single lockfile `pnpm-lock.yaml`; do not use npm, yarn or bun)
 - An AI coding agent (see [Supported Platforms](#supported-platforms))
 
 ## Tech Stack
@@ -144,11 +145,11 @@ GEMINI.md           # Gemini CLI config (imports AGENTS.md)
 ## Commands
 
 ```bash
-npm run dev    # Start dev server
-npm run build  # Production build
-npm run lint   # ESLint check
-npm run typecheck # TypeScript check
-npm run check  # Run lint + typecheck + build
+pnpm dev    # Start dev server
+pnpm build  # Production build
+pnpm lint   # ESLint check
+pnpm typecheck # TypeScript check
+pnpm check  # Run lint + typecheck + build
 ```
 
 ### If using docker

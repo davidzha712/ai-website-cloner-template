@@ -214,7 +214,7 @@ For each PageSection:
 1. **Extract** — a11y snapshot for content, `getComputedStyle` on title/body/CTA for typography, `querySelectorAll('.X')` for sub-elements
 2. **Measure** — write extracted values to `docs/research/<section>.json`
 3. **Recreate** — build `<SectionName>Illustration.tsx` as pure DOM, no images, ~200-300 lines
-4. **Verify** — `npm run build` passes; chrome-devtools navigate + screenshot at the section's y-offset; compare side-by-side with `docs/design-references/`
+4. **Verify** — `pnpm build` passes; chrome-devtools navigate + screenshot at the section's y-offset; compare side-by-side with `docs/design-references/`
 
 ---
 

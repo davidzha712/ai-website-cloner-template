@@ -16,4 +16,4 @@
 
 ## Checklist
 
-- [ ] `npm run check` passes (lint + typecheck + build)
+- [ ] `pnpm check` passes (lint + typecheck + build)
