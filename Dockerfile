@@ -21,7 +21,7 @@ RUN corepack enable && corepack prepare pnpm@${PNPM_VERSION} --activate
 
 # Copy package-related files first to leverage Docker's caching mechanism.
 # pnpm-workspace.yaml carries the approved native build scripts (allowBuilds / onlyBuiltDependencies).
-COPY package.json pnpm-lock.yaml pnpm-workspace.yaml .npmrc* ./
+COPY package.json pnpm-lock.yaml pnpm-workspace.yaml ./
 
 # Install project dependencies with frozen lockfile for reproducible builds
 RUN --mount=type=cache,target=/root/.local/share/pnpm/store \
